@@ -1,14 +1,20 @@
-import React from 'react'
+import React from "react";
 
 export default function StarRating({ value, onChange }) {
   return (
-    <div className="flex">
-      {[1,2,3,4,5].map(star => (
-        <span
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <button
           key={star}
-          className={star <= value ? "text-yellow-400 cursor-pointer" : "text-gray-400 cursor-pointer"}
+          type="button"
+          className="focus:outline-none"
           onClick={() => onChange(star)}
-        >★</span>
+          aria-label={`Set rating to ${star}`}
+        >
+          <span className={star <= value ? "text-yellow-400 text-2xl" : "text-gray-300 text-2xl"}>
+            ★
+          </span>
+        </button>
       ))}
     </div>
   );

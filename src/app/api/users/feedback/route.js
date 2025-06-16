@@ -15,6 +15,7 @@ export async function POST(request) {
         const feedback = new feedbackModel({
         name: data.name || "",
         email: data.email || "",
+        product: data.product || "",
         feedbackText: data.feedbackText,
         rating: data.rating,
         });

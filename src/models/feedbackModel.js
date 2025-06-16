@@ -3,17 +3,21 @@ import  mongoose from 'mongoose';
 const feedbackSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        
     },
     email:{
         type:String,
-        required: true,
+        
     },
     
     feedbackText: {
         type: String,
         required: true
     },
+    product: { 
+        type: String, 
+        default: "" 
+    },          
     rating: {
         type: Number,
         required: true,

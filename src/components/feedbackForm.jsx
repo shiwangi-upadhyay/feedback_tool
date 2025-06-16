@@ -6,6 +6,7 @@ export default function FeedbackForm() {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    product: "",
     feedbackText: "",
     rating: 0,
   });
@@ -23,45 +24,108 @@ export default function FeedbackForm() {
       headers: { "Content-Type": "application/json" },
     });
     setStatus(res.ok ? "Thank you for your feedback!" : "Failed to submit.");
+    if (res.ok) {
+      setForm({
+        name: "",
+        email: "",
+        product: "",
+        feedbackText: "",
+        rating: 0,
+      });
+    }
   }
 
   return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+
+    
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 max-w-md mx-auto bg-white p-6 rounded shadow"
+      className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow flex flex-col items-center mt-12"
     >
-      <input
-        name="name"
-        value={form.name}
-        onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-        placeholder="Name (optional)"
-        className="input"
-      />
-      <input
-        name="email"
-        value={form.email}
-        onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-        placeholder="Email (optional)"
-        className="input"
-      />
+      {/* Profile Row (No Picture) */}
+      <div className="flex items-center justify-center gap-6 w-full mb-6">
+        <div className="flex-1">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl font-bold text-gray-800">
+              {form.name || "Your Name"}
+            </span>
+            <div className="flex">
+              <StarRating
+                value={form.rating}
+                onChange={(rating) => setForm((f) => ({ ...f, rating }))}
+                size={24}
+                interactive
+              />
+            </div>
+          </div>
+          <div className="text-gray-500 text-lg font-normal">
+            {form.email || "Your Role or Email"}
+          </div>
+        </div>
+      </div>
+        {/* Product Input */}
+        <input
+            name="product"
+            value={form.product}
+            onChange={(e) =>
+              setForm((f) => ({ ...f, product: e.target.value }))
+            }
+            placeholder="Product Name (optional)"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 transition mb-4 "
+        />
+        
+      {/* Feedback Text */}
       <textarea
         name="feedback"
         value={form.feedbackText}
         onChange={(e) =>
           setForm((f) => ({ ...f, feedbackText: e.target.value }))
         }
-        placeholder="Your feedback"
+        placeholder="Share your feedback..."
         required
-        className="input"
+        rows={4}
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 text-lg transition resize-none mb-4"
       />
-      <StarRating
-        value={form.rating}
-        onChange={(rating) => setForm((f) => ({ ...f, rating }))}
-      />
-      <button type="submit" className="btn-primary">
+      {/* Name and Email Inputs */}
+      <div className="flex w-full gap-4 mb-4">
+        <input
+          name="name"
+          value={form.name}
+          onChange={(e) =>
+            setForm((f) => ({ ...f, name: e.target.value }))
+          }
+          placeholder="Name (optional)"
+          className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 transition"
+        />
+        <input
+          name="email"
+          value={form.email}
+          onChange={(e) =>
+            setForm((f) => ({ ...f, email: e.target.value }))
+          }
+          placeholder="Email (optional)"
+          className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 transition"
+        />
+      </div>
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="w-40 bg-black text-white font-semibold py-2 rounded-lg transition mt-2"
+      >
         Submit
       </button>
-      {status && <div>{status}</div>}
+      {/* Status Message */}
+      {status && (
+        <div
+          className={`text-center font-medium mt-4 ${
+            status.startsWith("Thank") ? "text-green-600" : "text-red-600"
+          }`}
+        >
+          {status}
+        </div>
+      )}
     </form>
+    </div>
   );
 }
