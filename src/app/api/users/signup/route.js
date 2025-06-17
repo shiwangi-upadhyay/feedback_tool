@@ -9,16 +9,24 @@ export async function POST(req) {
 
     if (!username || !email || !password) {
         return NextResponse.json(
-            { error: "Username, email, and password are required." },
-            { status: 400 }
+            { 
+                error: "Username, email, and password are required." 
+            },
+            { 
+                status: 400 
+            }
         );
     }
 
     const existing = await User.findOne({ email });
     if (existing) {
         return NextResponse.json(
-            { error: "Username or email already exists." },
-            { status: 409 }
+            { 
+                error: "Username or email already exists." 
+            },
+            { 
+                status: 409 
+            }
         );
     }
 
@@ -33,6 +41,10 @@ export async function POST(req) {
 
     return NextResponse.json({
         success: true,
-        user: { username: user.username, email: user.email, isAdmin: user.isAdmin },
+        user: { 
+            username: user.username, 
+            email: user.email, 
+            isAdmin: user.isAdmin 
+        },
     });
 }

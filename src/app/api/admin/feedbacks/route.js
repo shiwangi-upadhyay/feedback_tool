@@ -7,14 +7,13 @@ export async function GET(request) {
     await connect();
 
     const { searchParams } = new URL(request.url);
-    const sort = searchParams.get("sort") || "createdAt"; // 'createdAt', 'rating', 'popularity'
+    const sort = searchParams.get("sort") || "createdAt";
     const order = searchParams.get("order") === "asc" ? 1 : -1;
     const filterBy = searchParams.get("product") || null;
 
-    // Fetch all feedbacks
+    
     let feedbacksQuery = feedbackModel.find();
 
-    // Optional filter by product (popularity use case)
     if (filterBy) {
       feedbacksQuery = feedbacksQuery.where("product").equals(filterBy);
     }
@@ -29,7 +28,6 @@ export async function GET(request) {
 
     const feedbacks = await feedbacksQuery.sort(sortOptions).lean();
 
-    // Feedback stats
     const totalFeedbacks = feedbacks.length;
     const avgRating =
       feedbacks.reduce((sum, fb) => sum + fb.rating, 0) / totalFeedbacks || 0;
@@ -52,10 +50,14 @@ export async function GET(request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error fetching feedbacks:", error);
+      console.error("Error fetching feedbacks:", error);
     return Response.json(
-      { error: "Failed to fetch feedbacks." },
-      { status: 500 }
+      { 
+        error: "Failed to fetch feedbacks." 
+      },
+      { 
+        status: 500 
+      }
     );
   }
 }

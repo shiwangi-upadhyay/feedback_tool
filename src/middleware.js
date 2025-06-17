@@ -3,7 +3,6 @@ import { jwtVerify } from "jose";
 
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
-  // Only use 'const' declarations *inside* your function
   const adminPath = path.startsWith("/admin");
   const token = request.cookies.get("token")?.value || "";
 

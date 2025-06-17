@@ -27,17 +27,17 @@ export default function SignupForm() {
         e.preventDefault();
         setLoading(true);
         try {
-        const res = await axios.post("/api/users/signup", form);
-        if (res.data.success) {
-            toast.success("Signup successful! Please login.");
-            router.push("/login");
-        } else {
-            toast.error(res.data.error || "Signup failed.");
-        }
+            const res = await axios.post("/api/users/signup", form);
+            if (res.data.success) {
+                toast.success("Signup successful! Please login.");
+                router.push("/login");
+            } else {
+                toast.error(res.data.error || "Signup failed.");
+            }
         } catch (err) {
-        toast.error(err.response?.data?.error || "Something went wrong.");
+            toast.error(err.response?.data?.error || "Something went wrong.");
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     }
 

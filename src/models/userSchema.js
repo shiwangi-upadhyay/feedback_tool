@@ -13,12 +13,15 @@ email: {
 password: { 
     type: String, 
     required: true 
-}, // Should be hashed
+}, 
 isAdmin: { 
     type: Boolean, 
     default: false 
 },
-  // Add other fields as needed
+createdAt: { 
+    type: Date, 
+    default: Date.now 
+}
 });
 
 

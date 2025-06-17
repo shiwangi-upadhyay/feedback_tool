@@ -25,10 +25,6 @@ export default function FeedbackCards({ name, email, feedbackText, rating, creat
           {new Date(createdAt).toLocaleString()}
         </Typography>
       </CardBody>
-      <CardFooter className="pt-2 text-right">
-        {/* Optional Button */}
-        {/* <Button size="sm">Read More</Button> */}
-      </CardFooter>
     </Card>
   );
 }
