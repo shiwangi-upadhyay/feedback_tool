@@ -9,18 +9,33 @@ export async function POST(req) {
     const { email, password } = await req.json();
 
     if (!email || !password) {
-        return NextResponse.json({ error: "Email and password are required." }, { status: 400 });
+        return NextResponse.json({ 
+            error: "Email and password are required." 
+        }, 
+        { 
+            status: 400 
+        });
     }
 
   // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
-        return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
+        return NextResponse.json({ 
+            error: "Invalid credentials." 
+        }, 
+        { 
+            status: 401 
+        });
     }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-        return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
+        return NextResponse.json({ 
+            error: "Invalid credentials." 
+        }, 
+        { status: 401 
+            
+        });
     }
 
   // Include isAdmin in JWT
