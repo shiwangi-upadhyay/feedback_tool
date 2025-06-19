@@ -17,9 +17,9 @@ export default function Home() {
           <Typography variant="p" className="text-gray-700 mb-8 text-center">
             Collect, review, and manage product feedback effortlessly. Empower your users and improve your products with real-time insights!
           </Typography>
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
             <Link href="/signup">
-              <Button size="lg" className="bg-purple-800 hover:bg-purple-900 font-semibold shadow">
+              <Button size="lg" className="bg-purple-800 hover:bg-purple-900 font-semibold shadow px-6 py-2">
                 Get Started
               </Button>
             </Link>
@@ -27,7 +27,7 @@ export default function Home() {
               <Button
                 size="lg"
                 variant="outlined"
-                className="border-purple-800 text-purple-800 hover:bg-purple-100 font-semibold"
+                className="border-purple-800 text-purple-800 hover:bg-purple-100 font-semibold px-6 py-2"
               >
                 Login
               </Button>
