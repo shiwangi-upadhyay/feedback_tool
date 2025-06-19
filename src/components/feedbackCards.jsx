@@ -8,23 +8,23 @@ import {
 
 export default function FeedbackCards({ name, email, feedbackText, rating, createdAt }) {
   return (
-    <Card className="w-full shadow-md rounded-lg">
-      <CardBody>
-        <Typography variant="h5" color="blue-gray" className="mb-2">
+    <Card className="w-full rounded-3xl overflow-hidden shadow-xl bg-white border-t-8 border-purple-100">
+      <CardBody className="p-6 pb-4">
+        <Typography variant="h5" className="font-bold text-xl text-gray-800 mb-1">
           {name || "Anonymous"}
         </Typography>
-        <Typography color="gray" className="text-sm mb-2">
+        <Typography className="text-gray-500 text-lg mb-4">
           Email: {email || "Not provided"}
         </Typography>
-        <Typography className="mb-4">{feedbackText}</Typography>
         <div className="flex items-center gap-2 text-sm mb-2">
-          <span className="text-gray-600">Rating:</span>
-          <span className="font-semibold text-gray-800">{rating}/5</span>
+          <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-600 text-xs font-semibold">Rating:</span>
+          <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-600 text-xs font-semibold">{rating}/5</span>
         </div>
-        <Typography color="gray" className="text-xs">
-          {new Date(createdAt).toLocaleString()}
-        </Typography>
+        <Typography className="mb-4">{feedbackText}</Typography>
       </CardBody>
+        <Typography color="gray" className="bg-purple-100 text-purple-600 text-sm text-center py-3 tracking-wide font-medium rounded-b-3xl">
+            {new Date(createdAt).toLocaleString()}
+        </Typography>
     </Card>
   );
 }

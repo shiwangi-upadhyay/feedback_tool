@@ -46,7 +46,6 @@ export default function AdminFeedbacksPage() {
     const options = [
       { value: "createdAt", label: "Newest" },
       { value: "rating", label: "Rating" },
-      { value: "popularity", label: "Popularity (Product)" },
     ];
     const currentLabel = options.find((opt) => opt.value === sortBy)?.label || "Sort by";
     return (
@@ -55,7 +54,7 @@ export default function AdminFeedbacksPage() {
           <Button
             variant="outlined"
             color="blue-gray"
-            className="min-w-[160px] flex justify-between items-center"
+            className="min-w-[160px] flex justify-center items-center "
           >
             {currentLabel}
           </Button>
@@ -65,7 +64,7 @@ export default function AdminFeedbacksPage() {
             <MenuItem
               key={opt.value}
               onClick={() => setSortBy(opt.value)}
-              className={sortBy === opt.value ? "bg-blue-50 text-blue-700" : ""}
+              className={sortBy === opt.value ? "bg-purple-100 text-purple-800" : ""}
             >
               {opt.label}
             </MenuItem>
@@ -83,7 +82,7 @@ export default function AdminFeedbacksPage() {
           <Button
             variant="outlined"
             color="blue-gray"
-            className="min-w-[160px] flex justify-between items-center"
+            className="min-w-[160px] flex justify-center items-center"
           >
             {selectedProduct
               ? selectedProduct
@@ -98,7 +97,7 @@ export default function AdminFeedbacksPage() {
             <MenuItem
               key={prod}
               onClick={() => setSelectedProduct(prod)}
-              className={selectedProduct === prod ? "bg-blue-50 text-blue-700" : ""}
+              className={selectedProduct === prod ? "bg-purple-100 text-purple-800" : ""}
             >
               {prod}
             </MenuItem>
@@ -110,7 +109,7 @@ export default function AdminFeedbacksPage() {
 
   return (
     <div className="bg-gray-50 min-h-screen py-10 flex justify-center">
-      <div className="w-full max-w-5xl space-y-8">
+      <div className="w-full max-w-7xl space-y-8">
         {/* Title and Actions */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
           <Typography variant="h4" className="font-bold text-gray-800 text-center md:text-left">
@@ -121,7 +120,7 @@ export default function AdminFeedbacksPage() {
         {/* Stats Card */}
         <Card className="p-6 shadow-md rounded-xl flex flex-col sm:flex-row gap-6 justify-between items-center bg-gradient-to-r from-white via-gray-50 to-gray-100">
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-blue-700">{stats.totalFeedbacks}</span>
+            <span className="text-2xl font-bold text-purple-800">{stats.totalFeedbacks}</span>
             <span className="text-gray-600 text-sm font-medium">Total Feedbacks</span>
           </div>
           <div className="flex flex-col items-center">
@@ -142,7 +141,7 @@ export default function AdminFeedbacksPage() {
               ) : (
                 productOptions.map((prod) => (
                   <li key={prod}>
-                    {prod}: <span className="font-semibold text-blue-800">{stats.productStats[prod]}</span>
+                    {prod}: <span className="font-semibold text-purple-800">{stats.productStats[prod]}</span>
                   </li>
                 ))
               )}
@@ -170,17 +169,17 @@ export default function AdminFeedbacksPage() {
         </Card>
 
         {/* Feedback List */}
-        <Card className="p-6 bg-white shadow rounded-xl">
+        <div>
           {loading ? (
             <Typography className="text-center text-gray-500">Loading feedbacks...</Typography>
           ) : feedbacks.length === 0 ? (
             <Typography className="text-center text-gray-400">No feedbacks found.</Typography>
           ) : (
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {feedbacks.map((fb, i) => <FeedbackCards key={i} {...fb} />)}
             </div>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

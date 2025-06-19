@@ -36,15 +36,16 @@ export default function FeedbackForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow flex flex-col items-center mt-12"
+        className="w-full max-w-2xl mx-auto bg-white p-8 flex flex-col items-center rounded-3xl shadow-lg border border-gray-200 transition-transform transform hover:scale-105"
       >
+        <h1 className="text-3xl font-bold text-purple-800 mb-6">Feedback Form</h1>
         <div className="flex items-center justify-center gap-6 w-full mb-6">
-          <div className="flex-1">
+          <div className="flex flex-col items-center">
             <div className="flex items-center gap-3">
-              <span className="text-2xl font-bold text-gray-800">
+              <span className="text-2xl font-bold text-[#825e9e]">
                 {form.name || "Your Name"}
               </span>
               <div className="flex">
@@ -56,7 +57,7 @@ export default function FeedbackForm() {
                 />
               </div>
             </div>
-            <div className="text-gray-500 text-lg font-normal">
+            <div className="text-[#7d6b8a] text-lg font-normal">
               {form.email || "Your Role or Email"}
             </div>
           </div>
@@ -70,17 +71,17 @@ export default function FeedbackForm() {
               placeholder="Product Name (optional)"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 transition mb-4 "
           />
-        <textarea
-          name="feedback"
-          value={form.feedbackText}
-          onChange={(e) =>
-            setForm((f) => ({ ...f, feedbackText: e.target.value }))
-          }
-          placeholder="Share your feedback..."
-          required
-          rows={4}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 text-lg transition resize-none mb-4"
-        />
+          <textarea
+            name="feedback"
+            value={form.feedbackText}
+            onChange={(e) =>
+              setForm((f) => ({ ...f, feedbackText: e.target.value }))
+            }
+            placeholder="Share your feedback..."
+            required
+            rows={4}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 text-lg transition resize-none mb-4"
+          />
         <div className="flex w-full gap-4 mb-4">
           <input
             name="name"
@@ -103,7 +104,7 @@ export default function FeedbackForm() {
         </div>
         <button
           type="submit"
-          className="w-40 bg-black text-white font-semibold py-2 rounded-lg transition mt-2"
+          className="w-40 mt-2 bg-[#e4c7f8] text-purple-800 rounded-full py-3 font-semibold text-lg mb-6 transition  hover:bg-purple-800 hover:text-purple-100"
         >
           Submit
         </button>

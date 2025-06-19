@@ -1,19 +1,12 @@
-"use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-    Card,
-    CardBody,
-    Button,
-    Input,
-    Checkbox,
-    Typography,
-} from "@material-tailwind/react";
-import toast from "react-hot-toast";
+"use client"
+import { useState } from "react"
+import toast from "react-hot-toast"
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
-export default function SignupForm() {
+export default function LoginForm() {
+
     const router = useRouter();
     const [form, setForm] = useState({
         username: "",
@@ -40,85 +33,95 @@ export default function SignupForm() {
             setLoading(false);
         }
     }
-
-    return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-50">
-            <Card className="w-full max-w-md rounded-2xl shadow-lg p-0">
-                <div className="bg-black rounded-t-2xl py-8 px-5 flex flex-col items-center shadow-md">
-                    <Typography variant="h3" className="text-white font-bold">
-                        Sign Up
-                    </Typography>
-                </div>
-                <form onSubmit={handleSignup} className="w-full">
-                <CardBody className="flex flex-col gap-5 px-7 py-7">
-                    <Input
-                        name="username"
-                        placeholder="Username"
-                        value={form.username}
-                        onChange={e =>
-                            setForm(f => ({ ...f, username: e.target.value }))
-                        }
-                        size="lg"
-                        required
-                        className="bg-white py-2 pl-1 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 transition "
-                    />
-                    <Input
-                        name="email"
-                        type="email"
-                        placeholder="Email"
-                        value={form.email}
-                        onChange={e =>
-                            setForm(f => ({ ...f, email: e.target.value }))
-                        }
-                        size="lg"
-                        required
-                        className="bg-white py-2 pl-1 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 transition "
-                    />
-                    <Input
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-                        value={form.password}
-                        onChange={e =>
-                            setForm(f => ({ ...f, password: e.target.value }))
-                        }
-                        size="lg"
-                        required
-                        className="bg-white py-2 pl-1 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-600 transition"               
-                    />
-                    <div className="flex items-center gap-2 mt-2">
-                        <Checkbox
-                            checked={form.isAdmin}
-                            onChange={e =>
-                            setForm(f => ({ ...f, isAdmin: e.target.checked }))
-                            }
-                            className="border-gray-400"
+    return(
+        <div className="min-h-screen bg-white flex justify-center items-center">
+            <div className="w-full flex">
+                {/*left side img*/}
+                <section className="flex flex-col items-center justify-center w-1/2">
+                    <div className="relative mb-5 w-full flex flex-col items-center">
+                        <img
+                            src="/feedback-login.png"
+                            alt="Login Illustration"
+                            className="w-[600px] h-[600px] object-fit "
                         />
-                        <span className="text-gray-600 font-medium">Register as Admin</span>
                     </div>
-                    <Button
-                        type="submit"
-                        className="bg-black shadow-lg rounded-lg text-lg font-bold mt-3 p-2"
-                        fullWidth
-                        disabled={loading}
+                </section>
+
+                {/*right side form */}
+                <section className="w-1/2 flex flex-col justify-center">
+                    <div className="flex flex-col items-center">
+                        <h1 className="font-bold text-purple-800 text-4xl mb-3">Welcome back!</h1>
+                        <p className="text-gray-700 mb-8">
+                            Simplify your workflow and boost your productivity
+                            <br />
+                            with <span className="font-semibold">Tuga&apos;s App</span>. Get started for free.
+                        </p>
+                    </div>
+                    <form onSubmit={handleSignup} className="w-[500px] mx-auto">
+                        <input
+                            name="username"
+                            placeholder="Username"
+                            value={form.username}
+                            onChange={e =>
+                                setForm(f => ({ ...f, username: e.target.value }))
+                            }
+                            required
+                            className="w-full text-gray-700 px-5 py-3 rounded-full border border-gray-300 mb-1 focus:border-gray-500 transition"
+                        />
+                        <input
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            value={form.email}
+                            onChange={e =>
+                                setForm(f => ({ ...f, email: e.target.value }))
+                            }
+                            className="w-full text-gray-700 px-5 py-3 rounded-full border border-gray-300 mb-1 focus:border-gray-500 transition"
+                        />
+                        <input
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+                            value={form.password}
+                            onChange={e =>
+                                setForm(f => ({ ...f, password: e.target.value }))
+                            }
+                            required
+                            className="w-full text-gray-700 px-5 py-3 rounded-full border border-gray-300 mb-1 focus:border-gray-500 transition"
+                        />
+                        <div className="flex items-center gap-2 mt-2">
+                            <input
+                                type="checkbox"
+                                checked={form.isAdmin}
+                                onChange={e =>
+                                    setForm(f => ({ ...f, isAdmin: e.target.checked }))
+                                }
+                                className="border-gray-400"
+                                id="register-admin"
+                            />
+                            <label htmlFor="register-admin" className="text-gray-600 font-medium">
+                                Register as Admin
+                            </label>
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full bg-[#e4c7f8] text-purple-800 rounded-full py-3 font-semibold text-lg mt-6 mb-6 transition hover:bg-purple-800 hover:text-purple-100"
+                            disabled={loading}
                         >
-                        {loading ? "Signing Up..." : "Sign Up"}
-                    </Button>
-                    <Typography
-                        variant="small"
-                        className="mt-6 flex justify-center text-gray-600"
-                        >
-                        Already have an account?
-                        <Link
-                            href="/login"
-                            className="ml-1 font-bold text-gray-800 underline hover:text-black"
-                        >
-                            Login
-                        </Link>
-                    </Typography>
-                </CardBody>
-            </form>
-        </Card>
-    </div>
-  );
+                            {loading ? "Signing Up..." : "Sign Up"}
+                        </button>
+                        <div className="text-center text-gray-700 text-sm">
+                            Already have an account?
+                            <Link
+                                href="/login"
+                                className="ml-1 font-bold text-purple-800 underline hover:text-purple-600"
+                            >
+                                Login
+                            </Link>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    )
 }
