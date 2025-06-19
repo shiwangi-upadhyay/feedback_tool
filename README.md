@@ -45,8 +45,8 @@ A modern web app to collect, review, and manage product feedback effortlessly. E
 
 1. **Clone the repository**
     ```sh
-    git clone https://github.com/your-username/feedback-collector-app.git
-    cd feedback-collector-app
+    git clone https://github.com/shiwangi-upadhyay/feedback_tool.git
+    cd feedback
     ```
 
 2. **Install dependencies**
