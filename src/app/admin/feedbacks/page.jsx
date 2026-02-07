@@ -1,14 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  Typography,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Button,
-} from "@material-tailwind/react";
+import { Typography, Card, Button } from "@material-tailwind/react";
+import { LogOut, LayoutDashboard, Users, Star } from "lucide-react";
 import FeedbackChart from "@/components/feedbackChart";
 import FeedbackCards from "@/components/feedbackCards";
 import axios from "axios";
@@ -17,7 +10,6 @@ export default function AdminFeedbacksPage() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [stats, setStats] = useState({ avgRating: 0, totalFeedbacks: 0, productStats: {} });
   const [loading, setLoading] = useState(true);
-
   const [sortBy, setSortBy] = useState("createdAt");
   const [selectedProduct, setSelectedProduct] = useState("");
 
@@ -35,152 +27,120 @@ export default function AdminFeedbacksPage() {
         setLoading(false);
       }
     }
-
     fetchFeedbacks();
   }, [sortBy, selectedProduct]);
 
-  const productOptions = Object.keys(stats.productStats || {});
-
-  // Menu for sorting options
-  function SortByMenu() {
-    const options = [
-      { value: "createdAt", label: "Newest" },
-      { value: "rating", label: "Rating" },
-    ];
-    const currentLabel = options.find((opt) => opt.value === sortBy)?.label || "Sort by";
-    return (
-      <Menu animate={{ mount: { y: 0 }, unmount: { y: 25 } }}>
-        <MenuHandler>
-          <Button
-            variant="outlined"
-            color="blue-gray"
-            className="min-w-[160px] flex justify-center items-center "
-          >
-            {currentLabel}
-          </Button>
-        </MenuHandler>
-        <MenuList>
-          {options.map((opt) => (
-            <MenuItem
-              key={opt.value}
-              onClick={() => setSortBy(opt.value)}
-              className={sortBy === opt.value ? "bg-purple-100 text-purple-800" : ""}
-            >
-              {opt.label}
-            </MenuItem>
-          ))}
-        </MenuList>
-      </Menu>
-    );
-  }
-
-  // Menu for filtering by product
-  function ProductMenu() {
-    return (
-      <Menu animate={{ mount: { y: 0 }, unmount: { y: 25 } }}>
-        <MenuHandler>
-          <Button
-            variant="outlined"
-            color="blue-gray"
-            className="min-w-[160px] flex justify-center items-center"
-          >
-            {selectedProduct
-              ? selectedProduct
-              : "All Products"}
-          </Button>
-        </MenuHandler>
-        <MenuList>
-          <MenuItem onClick={() => setSelectedProduct("")}>
-            All Products
-          </MenuItem>
-          {productOptions.map((prod) => (
-            <MenuItem
-              key={prod}
-              onClick={() => setSelectedProduct(prod)}
-              className={selectedProduct === prod ? "bg-purple-100 text-purple-800" : ""}
-            >
-              {prod}
-            </MenuItem>
-          ))}
-        </MenuList>
-      </Menu>
-    );
-  }
+  const handleLogout = () => {
+    // Add logout logic here
+    window.location.href = "/login";
+  };
 
   return (
-    <div className="bg-gray-50 min-h-screen py-10 flex justify-center">
-      <div className="w-full max-w-7xl space-y-8">
-        {/* Title and Actions */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-          <Typography variant="h4" className="font-bold text-gray-800 text-center md:text-left">
-            Admin: User Feedbacks
-          </Typography>
+    <div className="min-h-screen bg-[#FDFCFE] p-4 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-8">
+        
+        {/* Modern Header */}
+        <header className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-[2rem] shadow-sm border border-purple-50">
+          <div className="flex items-center gap-4">
+            <div className="bg-purple-800 p-3 rounded-2xl text-white">
+              <LayoutDashboard size={24} />
+            </div>
+            <div>
+              <Typography variant="h4" className="text-gray-900 font-bold">Admin Dashboard</Typography>
+              <Typography className="text-gray-500 text-sm">Managing {stats.totalFeedbacks} User Feedbacks</Typography>
+            </div>
+          </div>
+          <Button 
+            onClick={handleLogout}
+            variant="text" 
+            className="flex items-center gap-2 text-red-500 hover:bg-red-50 px-6 py-3 rounded-2xl transition-all"
+          >
+            <LogOut size={18} /> Logout
+          </Button>
+        </header>
+
+        {/* Quick Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <StatCard icon={<Users className="text-purple-600"/>} label="Total Feedbacks" value={stats.totalFeedbacks} color="bg-purple-50" />
+          <StatCard icon={<Star className="text-yellow-600"/>} label="Avg. Rating" value={`${stats.avgRating} / 5`} color="bg-yellow-50" />
+          <Card className="p-6 rounded-[2rem] shadow-sm border border-purple-50 bg-white">
+            <Typography className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2">Product Distribution</Typography>
+            <div className="flex flex-wrap gap-2">
+              {Object.entries(stats.productStats || {}).map(([name, count]) => (
+                <span key={name} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                  {name}: <span className="text-purple-700 font-bold">{count}</span>
+                </span>
+              ))}
+            </div>
+          </Card>
         </div>
 
-        {/* Stats Card */}
-        <Card className="p-6 shadow-md rounded-xl flex flex-col sm:flex-row gap-6 justify-between items-center bg-gradient-to-r from-white via-gray-50 to-gray-100">
-          <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-purple-800">{stats.totalFeedbacks}</span>
-            <span className="text-gray-600 text-sm font-medium">Total Feedbacks</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="flex items-center text-2xl font-bold text-yellow-500">
-              <span className="mr-1">{stats.avgRating}</span>
-              <svg className="h-6 w-6 inline-block text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 17.75l-6.172 3.247 1.18-6.885L2 9.753l6.914-1.004L12 2.25l3.086 6.499L22 9.753l-5.008 4.359 1.18 6.885z" />
-              </svg>
-              / 5
-            </span>
-            <span className="text-gray-600 text-sm font-medium">Average Rating</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-lg font-semibold text-gray-700">Popular Products</span>
-            <ul className="mt-1 text-gray-500 text-sm font-normal">
-              {productOptions.length === 0 ? (
-                <li>No products yet</li>
-              ) : (
-                productOptions.map((prod) => (
-                  <li key={prod}>
-                    {prod}: <span className="font-semibold text-purple-800">{stats.productStats[prod]}</span>
-                  </li>
-                ))
-              )}
-            </ul>
-          </div>
-        </Card>
-
-        <Card className="p-6 shadow-md rounded-xl bg-white">
-            <Typography variant="h6" className="mb-4 text-gray-800">
-                Feedback Count by Product
+        {/* Analytics & Controls Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Chart Card */}
+          <Card className="lg:col-span-2 p-8 rounded-[2rem] shadow-sm border border-purple-50 bg-white">
+            <Typography variant="h6" className="text-gray-800 mb-6 font-bold flex items-center gap-2">
+               Volume Analysis
             </Typography>
             <FeedbackChart productStats={stats.productStats} />
-        </Card>
+          </Card>
 
-        {/* Controls Card */}
-        <Card className="p-4 shadow flex flex-col md:flex-row md:items-center gap-4 md:gap-8 bg-white rounded-xl">
-          <div className="flex-1 flex flex-col md:flex-row gap-4 md:items-center">
-            <span className="text-gray-700 font-medium">Sort by</span>
-            <SortByMenu />
-          </div>
-          <div className="flex-1 flex flex-col md:flex-row gap-4 md:items-center">
-            <span className="text-gray-700 font-medium">Filter by Product</span>
-            <ProductMenu />
-          </div>
-        </Card>
+          {/* Controls Card */}
+          <Card className="p-8 rounded-[2rem] shadow-sm border border-purple-50 bg-white flex flex-col justify-center space-y-6">
+            <Typography variant="h6" className="text-gray-800 font-bold">Filters & Sort</Typography>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-gray-400 uppercase">Sort Order</label>
+                <select 
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-purple-200"
+                >
+                  <option value="createdAt">Newest First</option>
+                  <option value="rating">Top Rated</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-gray-400 uppercase">Filter Product</label>
+                <select 
+                  onChange={(e) => setSelectedProduct(e.target.value)}
+                  className="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-purple-200"
+                >
+                  <option value="">All Products</option>
+                  {Object.keys(stats.productStats || {}).map(prod => (
+                    <option key={prod} value={prod}>{prod}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </Card>
+        </div>
 
-        {/* Feedback List */}
-        <div>
+        {/* Feedback Cards Grid */}
+        <div className="space-y-6">
+          <Typography variant="h5" className="text-gray-800 font-bold px-2">Recent Submissions</Typography>
           {loading ? (
-            <Typography className="text-center text-gray-500">Loading feedbacks...</Typography>
-          ) : feedbacks.length === 0 ? (
-            <Typography className="text-center text-gray-400">No feedbacks found.</Typography>
+            <div className="h-40 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-800"></div>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {feedbacks.map((fb, i) => <FeedbackCards key={i} {...fb} />)}
             </div>
           )}
         </div>
       </div>
     </div>
+  );
+}
+
+function StatCard({ icon, label, value, color }) {
+  return (
+    <Card className="p-6 rounded-[2rem] shadow-sm border border-purple-50 bg-white flex flex-row items-center gap-4">
+      <div className={`${color} p-4 rounded-2xl`}>{icon}</div>
+      <div>
+        <Typography className="text-gray-500 text-xs font-bold uppercase tracking-wider">{label}</Typography>
+        <Typography variant="h4" className="text-gray-900 font-bold">{value}</Typography>
+      </div>
+    </Card>
   );
 }

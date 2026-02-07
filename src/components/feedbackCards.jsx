@@ -5,26 +5,34 @@ import {
   CardFooter,
   Typography,
 } from "@material-tailwind/react";
+import { Star } from "lucide-react";
 
 export default function FeedbackCards({ name, email, feedbackText, rating, createdAt }) {
   return (
-    <Card className="w-full rounded-3xl overflow-hidden shadow-xl bg-white border-t-8 border-purple-100">
-      <CardBody className="p-6 pb-4">
-        <Typography variant="h5" className="font-bold text-xl text-gray-800 mb-1">
-          {name || "Anonymous"}
-        </Typography>
-        <Typography className="text-gray-500 text-lg mb-4">
-          Email: {email || "Not provided"}
-        </Typography>
-        <div className="flex items-center gap-2 text-sm mb-2">
-          <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-600 text-xs font-semibold">Rating:</span>
-          <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-600 text-xs font-semibold">{rating}/5</span>
+    <Card className="group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-[2rem] overflow-hidden border border-purple-50 bg-white">
+      <div className="p-6">
+        <div className="flex justify-between items-start mb-4">
+          <div>
+            <Typography className="font-bold text-gray-900 text-lg leading-tight">{name || "Anonymous User"}</Typography>
+            <Typography className="text-purple-400 text-xs font-medium">{email}</Typography>
+          </div>
+          <div className="bg-yellow-50 px-3 py-1 rounded-xl flex items-center gap-1">
+            <Star size={14} className="text-yellow-600 fill-yellow-600" />
+            <span className="text-yellow-700 font-bold text-sm">{rating}</span>
+          </div>
         </div>
-        <Typography className="mb-4">{feedbackText}</Typography>
-      </CardBody>
-        <Typography color="gray" className="bg-purple-100 text-purple-600 text-sm text-center py-3 tracking-wide font-medium rounded-b-3xl">
-            {new Date(createdAt).toLocaleString()}
-        </Typography>
+        
+        <div className="bg-gray-50 p-4 rounded-2xl mb-4 min-h-[100px]">
+          <Typography className="text-gray-600 text-sm italic leading-relaxed">
+            "{feedbackText}"
+          </Typography>
+        </div>
+        
+        <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+          <span>Date Submitted</span>
+          <span className="text-purple-300">{new Date(createdAt).toLocaleDateString()}</span>
+        </div>
+      </div>
     </Card>
   );
 }
